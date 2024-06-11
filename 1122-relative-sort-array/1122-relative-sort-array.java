@@ -1,24 +1,31 @@
 class Solution {
     public int[] relativeSortArray(int[] arr1, int[] arr2) {
-        List<Integer> res = new ArrayList<>();
+       Map<Integer, Integer> countMap = new HashMap<>();
+        List<Integer> remaining = new ArrayList<>();
+        List<Integer> result = new ArrayList<>();
         
-        for(int i=0; i<arr2.length; i++){
-            for(int j = 0; j<arr1.length; j++){
-                if(arr2[i] == arr1[j]){
-                    res.add(arr1[j]);
-                    arr1[j] = -1;
-                }
+        for(int value : arr2){
+            countMap.put(value, 0);
+        }
+        
+        for(int val : arr1){
+            if(countMap.containsKey(val)){
+                countMap.put(val, countMap.get(val) + 1); // increasing the frequency
+            }
+            else{
+                remaining.add(val);
             }
         }
         
-        Arrays.sort(arr1);
+        Collections.sort(remaining);
         
-        for(int i=0; i<arr1.length; i++){
-            if(arr1[i] != -1){
-                res.add(arr1[i]);
+        for(int value : arr2){
+            for(int j=0; j<countMap.get(value); j++){
+                result.add(value);
             }
         }
         
-        return res.stream().mapToInt(Integer::intValue).toArray();
+        result.addAll(remaining);
+        return result.stream().mapToInt(Integer::intValue).toArray();
     }
 }
