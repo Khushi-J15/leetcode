@@ -24,7 +24,7 @@ class Solution {
     public void helper(TreeNode root){
         if(root == null) return;
         al.add(root.val);
-        preorderTraversal(root.left);
-        preorderTraversal(root.right);
+        helper(root.left);
+        helper(root.right);
     }
 }
