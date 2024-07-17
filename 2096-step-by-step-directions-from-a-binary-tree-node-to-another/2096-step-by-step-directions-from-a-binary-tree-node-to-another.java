@@ -19,12 +19,27 @@ class Solution {
         StringBuilder d = new StringBuilder();
         find(root, startValue, s);
         find(root, destValue, d);
-        int i=0, max_i = Math.min(d.length(), s.length());
+        int i=0, j=0;
         
-        while(i < max_i && s.charAt(s.length() - i - 1) == d.charAt(d.length() - i - 1))
+        s.reverse();
+        d.reverse();
+        
+        while(i < s.length() && j < d.length()){
+            if(s.charAt(i) == d.charAt(j)){
+                i++;
+                j++;
+            }
+            else break;
+        }
+         
+       StringBuilder sb = new StringBuilder();
+        while(i < s.length()){
+            sb.append("U");
             i++;
+        }
+        sb.append(d.substring(j));
+        return sb.toString();
         
-        return "U".repeat(s.length() - i) + d.reverse().toString().substring(i);
     }
     
     public boolean find(TreeNode n, int val, StringBuilder sb){
