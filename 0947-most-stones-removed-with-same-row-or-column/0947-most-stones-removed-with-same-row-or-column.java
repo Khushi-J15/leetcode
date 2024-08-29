@@ -1,60 +1,39 @@
 class Solution {
+    int n;
+    int[] parent;
+    
     public int removeStones(int[][] stones) {
-        if (stones.length == 0) return 0;
-
-        Map<Integer, List<Integer>> rowMap = new HashMap<>();
-        Map<Integer, List<Integer>> colMap = new HashMap<>();
-
-        for (int[] stone : stones) {
-            rowMap.computeIfAbsent(stone[0], k -> new ArrayList<>()).add(stone[1]);
-            colMap.computeIfAbsent(stone[1], k -> new ArrayList<>()).add(stone[0]);
+        n = stones.length;
+        parent = new int[20001];
+        
+        for(int i=0; i<parent.length; i++){
+            parent[i] = i;
         }
-
-        boolean[] visited = new boolean[stones.length];
-        int removedStones = 0;
-
-        for (int i = 0; i < stones.length; i++) {
-            if (!visited[i]) {
-                removedStones += dfs(stones, i, rowMap, colMap, visited) - 1;
-            }
+        
+        for(int[] stone : stones){
+            int x = stone[0];
+            int y = stone[1] + 10001;
+            union(x,y);
         }
-        return removedStones;
+        
+        Set<Integer> components = new HashSet<>();
+        
+        for(int[] stone : stones)
+            components.add(find(stone[0]));
+        
+        return n - components.size();
     }
     
-    private int dfs(int[][] stones, int index, Map<Integer, List<Integer>> rowMap, Map<Integer, List<Integer>> colMap, boolean[] visited) {
-        Stack<Integer> stack = new Stack<>();
-        stack.push(index);
-        visited[index] = true;
-        int count = 0;
-
-        while (!stack.isEmpty()) {
-            int currIndex = stack.pop();
-            count++;
-            int[] currStone = stones[currIndex];
-            int row = currStone[0];
-            int col = currStone[1];
-
-            for (int nextCol : rowMap.get(row)) {
-                for (int nextRow : colMap.get(nextCol)) {
-                    int nextIndex = findIndex(stones, nextRow, nextCol);
-                    if (!visited[nextIndex]) {
-                        visited[nextIndex] = true;
-                        stack.push(nextIndex);
-                    }
-                }
-            }
-        }
-
-        return count;
+    public void union(int i, int j){
+        int parI = find(i);
+        int parJ = find(j);
+        parent[parI] = parJ;
     }
-
-    private int findIndex(int[][] stones, int row, int col) {
-        for (int i = 0; i < stones.length; i++) {
-            if (stones[i][0] == row && stones[i][1] == col) {
-                return i;
-            }
-        }
-        return -1;
+    
+    public int find(int x){
+        if(parent[x]==x) return x;
+        return parent[x] = find(parent[x]);
     }
-
+    
+    
 }
