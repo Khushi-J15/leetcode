@@ -1,12 +1,7 @@
 class Solution {
     public boolean isCircularSentence(String sentence) {
-        List<String> al = new ArrayList<>();
         String[] strArray = sentence.split(" ");
-        
-        for(int i=0; i<strArray.length; i++){
-            al.add(strArray[i]);
-        }
-        
+     
         for(int i=0; i<strArray.length; i++){
             String str1 = strArray[i];
             String str2 = strArray[(i+1)%strArray.length];
