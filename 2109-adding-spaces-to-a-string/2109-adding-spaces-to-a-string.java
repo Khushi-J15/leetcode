@@ -1,8 +1,7 @@
 class Solution {
     public String addSpaces(String s, int[] spaces) {
-        StringBuilder sb = new StringBuilder();
-        
         Set<Integer> set = new HashSet<>();
+        StringBuilder sb = new StringBuilder();
         
         for(int i : spaces){
             set.add(i);
@@ -12,7 +11,6 @@ class Solution {
             if(set.contains(i)){
                 sb.append(' ');
             }
-            
             sb.append(s.charAt(i));
         }
         
