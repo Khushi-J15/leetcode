@@ -1,17 +1,18 @@
 class Solution {
     public boolean canMakeSubsequence(String str1, String str2) {
-        int str1Length = str1.length();
-        int str2Length = str2.length();
-        int str2Index = 0;
+        int i=0, j=0;
         
-        for(int str1Index = 0; str1Index < str1Length && str2Index < str2Length; ++str1Index){
-            if(str1.charAt(str1Index) == str2.charAt(str2Index) || 
-               str1.charAt(str1Index) + 1 == str2.charAt(str2Index) ||
-               str1.charAt(str1Index) - 25 == str2.charAt(str2Index)){
-                str2Index++;
+        while(i < str1.length() && j < str2.length()){
+            if(str1.charAt(i) == str2.charAt(j) || incChar(str1.charAt(i)) == str2.charAt(j)){
+                j++;
             }
+            i++;
         }
         
-        return str2Index == str2Length;
+        return j == str2.length();
+    }
+    
+    private char incChar(char ch){
+        return ch == 'z' ? 'a' : (char)(ch + 1);
     }
 }
